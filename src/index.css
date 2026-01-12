@@ -22,3 +22,72 @@ code {
   width: 100%;
   height: 100%;
 }
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+  }
+
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+.risk-marker {
+  position: relative;
+}
+
+.risk-marker::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: inherit;
+  /* Inherit color from the parent inline-style */
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  z-index: -1;
+}
+
+.risk-marker::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: white;
+  animation: pulse-dot 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+  z-index: 1;
+}
+
+/* Specific colors for marker classes if needed, though we might use inline styles for dynamic colors */
+.marker-high {
+  background-color: rgba(239, 68, 68, 0.5);
+}
+
+.marker-medium {
+  background-color: rgba(234, 179, 8, 0.5);
+}
+
+.marker-low {
+  background-color: rgba(34, 197, 94, 0.5);
+}

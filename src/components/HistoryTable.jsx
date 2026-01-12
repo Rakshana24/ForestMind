@@ -44,7 +44,6 @@ const HistoryTable = () => {
                             <th className="p-3">Location</th>
                             <th className="p-3">Alert Type</th>
                             <th className="p-3">Severity</th>
-                            <th className="p-3">Action Taken</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
@@ -54,15 +53,14 @@ const HistoryTable = () => {
                                 <td className="p-3 font-medium text-gray-800">{log.location}</td>
                                 <td className="p-3">
                                     <span className={`px-2 py-1 rounded-full text-xs font-bold ${log.type === 'Fire' ? 'bg-red-100 text-red-700' :
-                                            log.type === 'Intrusion' ? 'bg-orange-100 text-orange-700' :
-                                                log.type === 'Chainsaw' ? 'bg-yellow-100 text-yellow-700' :
-                                                    'bg-blue-100 text-blue-700'
+                                        log.type === 'Intrusion' ? 'bg-orange-100 text-orange-700' :
+                                            log.type === 'Chainsaw' ? 'bg-yellow-100 text-yellow-700' :
+                                                'bg-blue-100 text-blue-700'
                                         }`}>
                                         {log.type}
                                     </span>
                                 </td>
                                 <td className="p-3 capitalize">{log.severity}</td>
-                                <td className="p-3 text-gray-500 italic">{log.action}</td>
                             </tr>
                         ))}
                     </tbody>

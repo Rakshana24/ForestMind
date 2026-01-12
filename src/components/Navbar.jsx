@@ -18,10 +18,8 @@ const Navbar = () => {
     return (
         <nav className="bg-forest-primary shadow-md h-16 flex items-center justify-between px-6 z-50 relative">
             <div className="flex items-center space-x-3">
-                {/* Placeholder Logo */}
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-forest-primary font-bold">
-                    FM
-                </div>
+                {/* Logo */}
+                <img src="/logofm.png" alt="ForestMind Logo" className="w-10 h-10 object-contain rounded-full bg-white" />
                 <span className="text-white text-xl font-semibold tracking-wide">ForestMind</span>
             </div>
 

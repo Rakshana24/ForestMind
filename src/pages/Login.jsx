@@ -6,8 +6,9 @@ const Login = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         district: DISTRICTS[0],
-        areaName: '',
-        office: ''
+        forestName: '',
+        officeName: '',
+        password: ''
     });
 
     const handleChange = (e) => {
@@ -48,14 +49,14 @@ const Login = () => {
 
                     <div>
                         <label className="block text-sm font-medium text-forest-dark mb-1">
-                            Forest Area Name
+                            Forest Name
                         </label>
                         <input
                             type="text"
-                            name="areaName"
-                            value={formData.areaName}
+                            name="forestName"
+                            value={formData.forestName}
                             onChange={handleChange}
-                            placeholder="e.g. Mudumalai Core"
+                            placeholder="e.g. Mudumalai Tiger Reserve"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all"
                             required
                         />
@@ -63,14 +64,29 @@ const Login = () => {
 
                     <div>
                         <label className="block text-sm font-medium text-forest-dark mb-1">
-                            Forest Office
+                            Forest Office Name
                         </label>
                         <input
                             type="text"
-                            name="office"
-                            value={formData.office}
+                            name="officeName"
+                            value={formData.officeName}
                             onChange={handleChange}
                             placeholder="e.g. Range Office 1"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-forest-dark mb-1">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="••••••••"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all"
                             required
                         />
