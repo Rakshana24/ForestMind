@@ -1,25 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DISTRICTS } from '../data/mockData';
+import { login, getDistricts, getForests, getOffices } from '../services/api';
 
 const Login = () => {
     const navigate = useNavigate();
+
+    const [districts, setDistricts] = useState([]);
+    const [forests, setForests] = useState([]);
+    const [offices, setOffices] = useState([]);
+
     const [formData, setFormData] = useState({
-        district: DISTRICTS[0],
-        forestName: '',
-        officeName: '',
-        password: ''
+        district: "",
+        forest: "",
+        office: "",
+        password: ""
     });
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Load districts
+    useEffect(() => {
+        async function loadDistricts() {
+            const data = await getDistricts();
+            setDistricts(data);
+        }
+        loadDistricts();
+    }, []);
+
+    // Handle district change
+    const handleDistrictChange = async (e) => {
+        const district = e.target.value;
+        setFormData({ ...formData, district });
+
+        const fs = await getForests(district);
+        setForests(fs);
+        setOffices([]);
     };
 
-    const handleLogin = (e) => {
+    // Handle forest change
+    const handleForestChange = async (e) => {
+        const forest = e.target.value;
+        setFormData({ ...formData, forest });
+
+        const offs = await getOffices(forest);
+        setOffices(offs);
+    };
+
+    // Submit login
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Simulate login logic -> simple navigation
-        console.log("Logged in with:", formData);
-        navigate('/home');
+
+        const response = await login(formData);
+
+        if (response.token) {
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("officeName", formData.officeName);  
+            alert("Login Successful!");
+            navigate('/home');
+        } else {
+            alert(response.message || "Login Failed");
+        }
     };
 
     return (
@@ -31,70 +69,80 @@ const Login = () => {
                 </div>
 
                 <form onSubmit={handleLogin} className="space-y-6">
+
+                    {/* District */}
                     <div>
                         <label className="block text-sm font-medium text-forest-dark mb-1">
                             District
                         </label>
                         <select
-                            name="district"
                             value={formData.district}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all bg-white"
+                            onChange={handleDistrictChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                            required
                         >
-                            {DISTRICTS.map((dist) => (
-                                <option key={dist} value={dist}>{dist}</option>
+                            <option value="">Select District</option>
+                            {districts.map((d) => (
+                                <option key={d._id} value={d.districtName}>{d.districtName}</option>
                             ))}
                         </select>
                     </div>
 
+                    {/* Forest */}
                     <div>
                         <label className="block text-sm font-medium text-forest-dark mb-1">
                             Forest Name
                         </label>
-                        <input
-                            type="text"
-                            name="forestName"
-                            value={formData.forestName}
-                            onChange={handleChange}
-                            placeholder="e.g. Mudumalai Tiger Reserve"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all"
+                        <select
+                            value={formData.forest}
+                            onChange={handleForestChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                             required
-                        />
+                        >
+                            <option value="">Select Forest</option>
+                            {forests.map((f) => (
+                                <option key={f._id} value={f.forestName}>{f.forestName}</option>
+                            ))}
+                        </select>
                     </div>
 
+                    {/* Office */}
                     <div>
                         <label className="block text-sm font-medium text-forest-dark mb-1">
                             Forest Office Name
                         </label>
-                        <input
-                            type="text"
-                            name="officeName"
-                            value={formData.officeName}
-                            onChange={handleChange}
-                            placeholder="e.g. Range Office 1"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all"
+                        <select
+                            value={formData.office}
+                            onChange={(e) => setFormData({ ...formData, office: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                             required
-                        />
+                        >
+                            <option value="">Select Office</option>
+                            {offices.map((o) => (
+                                <option key={o._id} value={o.officeName}>{o.officeName}</option>
+                            ))}
+                        </select>
                     </div>
 
+                    {/* Password */}
                     <div>
                         <label className="block text-sm font-medium text-forest-dark mb-1">
                             Password
                         </label>
                         <input
                             type="password"
-                            name="password"
                             value={formData.password}
-                            onChange={handleChange}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             placeholder="••••••••"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-primary focus:border-forest-primary outline-none transition-all"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                             required
                         />
                     </div>
 
+                    {/* Submit */}
                     <button
                         type="submit"
-                        className="w-full py-3 px-4 bg-forest-secondary hover:bg-forest-dark text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                        className="w-full py-3 px-4 bg-forest-secondary hover:bg-forest-dark text-white font-semibold rounded-lg shadow-md"
                     >
                         Enter Dashboard
                     </button>
