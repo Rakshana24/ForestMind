@@ -30,6 +30,9 @@ const Navbar = () => {
                 <NavLink to="/details" className={linkClass}>
                     Forest Details
                 </NavLink>
+                <NavLink to="/alerts" className={linkClass}>
+                    Alerts
+                </NavLink>
                 <NavLink to="/history" className={linkClass}>
                     History
                 </NavLink>

@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import ForestDetails from './pages/ForestDetails';
 import History from './pages/History';
+import AlertsPage from './pages/AlertsPage';
 import './index.css';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/alerts" element={<AlertsPage />} />
           <Route path="/details" element={<ForestDetails />} />
           <Route path="/history" element={<History />} />
           {/* Fallback */}
